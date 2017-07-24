@@ -63,7 +63,8 @@ print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
 print_log "OpenStack Tenant is" $OS_TENANT
 print_log "OpenStack Region is" $OS_REGION_NAME
 print_log "Heat Stack name to create is "$STACK
-print_log "RUN - Now lets START and run the service"
+print_log "Heat Template URL is" $HEAT_TEMPLATE
+print_log "RUN - Now lets START and run the service ... heat stack-create"  
 # Run the Service
 
 case $cmd in
@@ -72,6 +73,7 @@ case $cmd in
         wget -N $OS_HEAT_TEMPLATE_URL
         print_log "START - Strip off the file name to process ..."
         HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
+        print_log $HEAT_TEMPLATE
 		print_log "START - Heat Stack created  "$STACK 
 		print_log "START - Provisioned to OpenStack Endpoint" $OS_AUTH_URL
 		heat stack-create $HEAT_TEMPLATE $STACK
@@ -79,7 +81,7 @@ case $cmd in
                 ;;
         stop)   
                 print_log "REMOVE - delete a container called "$STACK
-				heat stack-delete $OS_HEAT_TEMPLATE $STACK
+				heat stack-delete -f $OS_HEAT_TEMPLATE $STACK
                 serviceStatus="Stopped"
                 ;;
         *)
