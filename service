@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#
+# HEAT service  example using heat clients
+#
+# We will pass in several environment variables listed below
+#		$OS_HEAT_TEMPLATE_URL - URL of Heat Template to deploy
+#		$HEAT_TEMPLATE - file name from url string above to deploy
+# 		$STACK - The name of the heat stack to create
+# 		$OS_AUTH_URL - The IP or URL of the object storage API
+#		$OS_TENANT_NAME - The name of the Tenant or Project
+#		$OS_REGION_NAME - Name of the OpenStack Region, default is RegionOne 
+#		$OS_USERNAME - The user ID to login swift stack with
+# 		$OS_PASSWORD - Your Password given to you earlier
+#		
+# Locally we will use a few also
+# 
+#		$PASSWD-HIDE - Hidden password to ************
+#		cmd for our case statement
+#
+#
+#
+
+yum update -y
+
+. /utils.sh
+
+
+env
+
+print_log "$(env)"
+
+cmd=$1
+serviceStatus=""
+export PASSWDHIDE=xxxxxxxxxx
+
+if [ -n "$gitTag" ]; then
+    agentSendLogMessage  "Found gitTag parameter gitTag = ${gitTag}"
+else
+     agentSendLogMessage  "Didn't find custom parameter gitTag. Using gitTag=master"
+     gitTag="Heat stack create"
+fi
+print_log "INVOKE - Heat Service to make an application stack"
+#print_log "Yum epel package install"
+print_log "INSTALL - Installing epl-release"
+yum install -y epel-release
+
+#yum install -y python-pip
+
+#sudo pip install pip --upgrade
+
+#sudo yum install -y python-swiftclient
+print_log "INSTALL - Installing Python tools, Pip and his followers ... and minons" 
+yum install -y python-setuptools
+easy_install pip
+pip install --upgrade pip
+pip install --upgrade setuptools
+print_log "INSTALL - Installing HEAT CLI package ... "
+#pip install python-swiftclient
+pip install python-heatclient
+print_log "Logging in as User" $OS_USERNAME
+print_log "Executing Password" $PASSWDHIDE
+print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
+print_log "OpenStack Tenant is" $OS_TENANT
+print_log "OpenStack Region is" $OS_REGION_NAME
+print_log "Heat Stack name to create is "$STACK
+print_log "RUN - Now lets START and run the service"
+# Run the Service
+
+case $cmd in
+        start)
+        print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
+        wget -N $OS_HEAT_TEMPLATE_URL
+        print_log "START - Strip off the file name to process ..."
+        HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
+		print_log "START - Heat Stack created  "$STACK 
+		print_log "START - Provisioned to OpenStack Endpoint" $OS_AUTH_URL
+		heat stack-create $HEAT_TEMPLATE $STACK
+                serviceStatus="Started"
+                ;;
+        stop)   
+                print_log "REMOVE - delete a container called "$STACK
+				heat stack-delete $OS_HEAT_TEMPLATE $STACK
+                serviceStatus="Stopped"
+                ;;
+        *)
+                serviceStatus="Error: Not a valid argument"
+                exit 127
+                ;;
+esac
