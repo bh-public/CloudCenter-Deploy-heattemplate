@@ -1,0 +1,5 @@
+cloud@jump-cli-14:~$ echo "ftp://ftp.bla.com/path/to/a-file.tar.gz" | sed 's/.*\///'
+a-file.tar.gz
+cloud@jump-cli-14:~$ export TEST=ftp://ftp.bla.com/path/to/a-file.tar.gz
+cloud@jump-cli-14:~$ echo $TEST | sed 's/.*\///'
+a-file.tar.gz

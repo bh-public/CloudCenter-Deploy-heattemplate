@@ -57,7 +57,6 @@ easy_install pip
 pip install --upgrade pip
 pip install --upgrade setuptools
 print_log "INSTALL - Installing HEAT CLI package ... "
-#pip install python-swiftclient
 pip install python-heatclient
 print_log "Logging in as User" $OS_USERNAME
 print_log "Executing Password" $OS_PASSWORD
@@ -66,7 +65,10 @@ print_log "OpenStack Tenant is" $OS_TENANT_NAME
 print_log "OpenStack Tenant ID is " $OS_TENANT_ID
 print_log "OpenStack Region is" $OS_REGION_NAME
 print_log "Heat Stack name to create is "$STACK
-print_log "Heat Template URL is" $OS_HEAT_TEMPLATE_URL
+print_log "Heat Template URL is " $OS_HEAT_TEMPLATE_URL
+print_log "Strip off the file name to process ..."
+HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
+print_log "Heat Template file name is " $HEAT_TEMPLATE
 print_log "Now lets START and run the service ... heat stack-create"  
 # Run the Service
 
@@ -74,12 +76,10 @@ case $cmd in
         start)
         print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
         wget -N $OS_HEAT_TEMPLATE_URL
-        print_log "START - Strip off the file name to process ..."
-        HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
         print_log "Filename is: " $HEAT_TEMPLATE
 		print_log "START - Heat Stack to create is "$STACK 
 		print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
-		STRING=$(heat stack-create -f $HEAT_TEMPLATE $STACK)
+		export STRING=$(heat stack-create -f $HEAT_TEMPLATE $STACK)
 		print_log $STRING
 		heat stack-create -f $HEAT_TEMPLATE $STACK
                 serviceStatus="Started"
