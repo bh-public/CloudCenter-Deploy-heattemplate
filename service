@@ -14,7 +14,7 @@
 #		
 # Locally we will use a few also
 # 
-#		$PASSWD-HIDE - Hidden password to ************
+#		$PASSWDHIDE - Hidden password to ************
 #		cmd for our case statement
 #
 #
@@ -60,7 +60,7 @@ pip install python-heatclient
 print_log "Logging in as User" $OS_USERNAME
 print_log "Executing Password" $PASSWDHIDE
 print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
-print_log "OpenStack Tenant is" $OS_TENANT
+print_log "OpenStack Tenant is" $OS_TENANT_NAME
 print_log "OpenStack Region is" $OS_REGION_NAME
 print_log "Heat Stack name to create is "$STACK
 print_log "Heat Template URL is" $HEAT_TEMPLATE
@@ -73,10 +73,10 @@ case $cmd in
         wget -N $OS_HEAT_TEMPLATE_URL
         print_log "START - Strip off the file name to process ..."
         HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
-        print_log $HEAT_TEMPLATE
-		print_log "START - Heat Stack created  "$STACK 
-		print_log "START - Provisioned to OpenStack Endpoint" $OS_AUTH_URL
-		heat stack-create $HEAT_TEMPLATE $STACK
+        print_log "Filename is: " $HEAT_TEMPLATE
+		print_log "START - Heat Stack to create is "$STACK 
+		print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
+		heat stack-create -f $HEAT_TEMPLATE $STACK
                 serviceStatus="Started"
                 ;;
         stop)   
