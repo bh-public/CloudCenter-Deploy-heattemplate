@@ -8,6 +8,7 @@
 # 		$STACK - The name of the heat stack to create
 # 		$OS_AUTH_URL - The IP or URL of the object storage API
 #		$OS_TENANT_NAME - The name of the Tenant or Project
+#		$OS_TENANT_ID - UUID of Tenant
 #		$OS_REGION_NAME - Name of the OpenStack Region, default is RegionOne 
 #		$OS_USERNAME - The user ID to login swift stack with
 # 		$OS_PASSWORD - Your Password given to you earlier
@@ -32,6 +33,7 @@ print_log "$(env)"
 cmd=$1
 serviceStatus=""
 export PASSWDHIDE=xxxxxxxxxx
+export OS_TENANT_ID=7ed0ac8276354696b3b5b73033fd6157
 
 if [ -n "$gitTag" ]; then
     agentSendLogMessage  "Found gitTag parameter gitTag = ${gitTag}"
@@ -58,9 +60,10 @@ print_log "INSTALL - Installing HEAT CLI package ... "
 #pip install python-swiftclient
 pip install python-heatclient
 print_log "Logging in as User" $OS_USERNAME
-print_log "Executing Password" $PASSWDHIDE
+print_log "Executing Password" $OS_PASSWORD
 print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
 print_log "OpenStack Tenant is" $OS_TENANT_NAME
+print_log "OpenStack Tenant ID is " $OS_TENANT_ID
 print_log "OpenStack Region is" $OS_REGION_NAME
 print_log "Heat Stack name to create is "$STACK
 print_log "Heat Template URL is" $HEAT_TEMPLATE
