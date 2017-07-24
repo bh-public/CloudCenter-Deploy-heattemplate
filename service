@@ -64,7 +64,7 @@ print_log "OpenStack Tenant is" $OS_TENANT_NAME
 print_log "OpenStack Region is" $OS_REGION_NAME
 print_log "Heat Stack name to create is "$STACK
 print_log "Heat Template URL is" $HEAT_TEMPLATE
-print_log "RUN - Now lets START and run the service ... heat stack-create"  
+print_log "Now lets START and run the service ... heat stack-create"  
 # Run the Service
 
 case $cmd in
@@ -76,6 +76,8 @@ case $cmd in
         print_log "Filename is: " $HEAT_TEMPLATE
 		print_log "START - Heat Stack to create is "$STACK 
 		print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
+		STRING=$(heat stack-create -f $HEAT_TEMPLATE $STACK)
+		print_log $STRING
 		heat stack-create -f $HEAT_TEMPLATE $STACK
                 serviceStatus="Started"
                 ;;
