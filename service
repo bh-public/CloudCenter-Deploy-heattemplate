@@ -85,8 +85,8 @@ case $cmd in
                 serviceStatus="Started"
                 ;;
         stop)   
-                print_log "REMOVE - delete a container called "$STACK
-				heat stack-delete -f $OS_HEAT_TEMPLATE $STACK
+                print_log "REMOVE - delete a stack called "$STACK
+				heat stack-delete -f $HEAT_TEMPLATE $STACK
                 serviceStatus="Stopped"
                 ;;
         *)
