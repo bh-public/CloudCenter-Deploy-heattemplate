@@ -75,22 +75,22 @@ print_log "Now lets START and run the service ... heat stack-create"
 
 case $cmd in
         start)
-        		print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
-				wget -N $OS_HEAT_TEMPLATE_URL
-				print_log "Filename is: " $HEAT_TEMPLATE
-				print_log "START - Heat Stack to create is "$STACK 
-				print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
-				heat stack-create -f $HEAT_TEMPLATE $STACK
-				print_log "Heat Stack now deployed"
-                serviceStatus="Started"
-                ;;
+          print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
+          wget -N $OS_HEAT_TEMPLATE_URL
+          print_log "Filename is: " $HEAT_TEMPLATE
+          print_log "START - Heat Stack to create is "$STACK 
+          print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
+          heat stack-create -f $HEAT_TEMPLATE $STACK
+          print_log "Heat Stack now deployed"
+          serviceStatus="Started"
+        ;;
         stop)   
-                print_log "REMOVE - delete a stack called "$STACK
-				heat stack-delete -f $HEAT_TEMPLATE $STACK
-                serviceStatus="Stopped"
-                ;;
+          print_log "REMOVE - delete a stack called "$STACK
+          heat stack-delete -f $HEAT_TEMPLATE $STACK
+          serviceStatus="Stopped"
+        ;;
         *)
-                serviceStatus="Error: Not a valid argument"
-                exit 127
-                ;;
+          serviceStatus="Error: Not a valid argument"
+        exit 127
+        ;;
 esac
