@@ -80,8 +80,6 @@ case $cmd in
         		print_log "Filename is: " $HEAT_TEMPLATE
 				print_log "START - Heat Stack to create is "$STACK 
 				print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
-				export STRING=$(heat stack-create -f $HEAT_TEMPLATE $STACK)
-				print_log "Executing ..." $STRING
 				heat stack-create -f $HEAT_TEMPLATE $STACK
 				print_log "Heat Stack now deployed"
                 serviceStatus="Started"
