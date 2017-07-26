@@ -63,20 +63,22 @@ pip install --upgrade pip
 pip install --upgrade setuptools
 print_log "INSTALL - Installing OpenStack HEAT CLI client ..."
 pip install python-heatclient
-print_log "Logging in as User" $OS_USERNAME
-print_log "Executing Password" $OS_PASSWORD
-print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
-print_log "OpenStack Tenant is" $OS_TENANT_NAME
-print_log "OpenStack Tenant ID is " $OS_TENANT_ID
-print_log "OpenStack Region is" $OS_REGION_NAME
-print_log "Heat Stack name to create is "$STACK
-print_log "Heat Template URL is " $OS_HEAT_TEMPLATE_URL
-print_log "Strip off the file name of the heat template to process using sed ..."
-HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
-print_log "Heat Template file name to deploy is " $HEAT_TEMPLATE
+
 # Run the Service
 case $cmd in
         start)
+          print_log "Logging in as User" $OS_USERNAME
+#         print_log "Executing Password" $OS_PASSWORD
+          print_log "Executing Password" $PASSWDHIDE
+          print_log "OpenStack URL Endpoint is" $OS_AUTH_URL
+          print_log "OpenStack Tenant is" $OS_TENANT_NAME
+          print_log "OpenStack Tenant ID is " $OS_TENANT_ID
+          print_log "OpenStack Region is" $OS_REGION_NAME
+          print_log "Heat Stack name to create is "$STACK
+          print_log "Heat Template URL is " $OS_HEAT_TEMPLATE_URL
+          print_log "Strip off the file name of the heat template to process using sed ..."
+          HEAT_TEMPLATE=$(echo $OS_HEAT_TEMPLATE_URL | sed 's/.*\///')
+          print_log "Heat Template file name to deploy is " $HEAT_TEMPLATE     
           print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
           wget -N $OS_HEAT_TEMPLATE_URL
           print_log "Filename is: " $HEAT_TEMPLATE
