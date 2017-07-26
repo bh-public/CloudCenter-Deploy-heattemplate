@@ -15,7 +15,7 @@ parameters:
     default: ubuntu_1404_server_cloudimg_amd64
   private_net:
     type: string
-    default: 0a04acf0-18e8-43ec-bb95-9c58246e4fb8
+    default:d0bc373b-44a3-4b98-93aa-6844d1919f98
 
 
 
