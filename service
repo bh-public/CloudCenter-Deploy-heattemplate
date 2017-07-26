@@ -88,7 +88,7 @@ case $cmd in
         ;;
         stop)   
           print_log "REMOVE - delete a stack called "$STACK
-          heat stack-delete -f $HEAT_TEMPLATE $STACK
+          heat stack-delete $STACK
           serviceStatus="Stopped"
         ;;
         *)
