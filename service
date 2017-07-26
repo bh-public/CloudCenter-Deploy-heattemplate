@@ -45,6 +45,7 @@ print_log "INVOKE - Heat Service to make an application stack"
 #print_log "Yum epel package install"
 print_log "INSTALL - Installing epl-release"
 yum install -y epel-release
+yum install -y gcc
 
 #yum install -y python-pip
 
