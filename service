@@ -76,8 +76,8 @@ print_log "Now lets START and run the service ... heat stack-create"
 case $cmd in
         start)
         		print_log "START - Download the Template $OS_HEAT_TEMPLATE_URL and save locally"
-        		wget -N $OS_HEAT_TEMPLATE_URL
-        		print_log "Filename is: " $HEAT_TEMPLATE
+				wget -N $OS_HEAT_TEMPLATE_URL
+				print_log "Filename is: " $HEAT_TEMPLATE
 				print_log "START - Heat Stack to create is "$STACK 
 				print_log "START - OpenStack Endpoint is" $OS_AUTH_URL
 				heat stack-create -f $HEAT_TEMPLATE $STACK
